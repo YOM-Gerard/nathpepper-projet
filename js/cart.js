@@ -1,0 +1,199 @@
+// Gestion du panier
+let cart = JSON.parse(localStorage.getItem('nathpepper-cart')) || [];
+
+// Fonction pour ajouter un produit au panier
+function addToCart(productId, quantity = 1) {
+    const product = getProductById(productId);
+    if (!product) return;
+
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({
+            id: productId,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: quantity
+        });
+    }
+    
+    updateCartDisplay();
+    saveCart();
+    showNotification(`${product.name} ajouté au panier`, 'success');
+}
+
+// Fonction pour retirer un produit du panier
+function removeFromCart(productId) {
+    const itemIndex = cart.findIndex(item => item.id === productId);
+    if (itemIndex > -1) {
+        const item = cart[itemIndex];
+        cart.splice(itemIndex, 1);
+        updateCartDisplay();
+        saveCart();
+        showNotification(`${item.name} retiré du panier`, 'info');
+    }
+}
+
+// Fonction pour modifier la quantité d'un produit
+function updateCartQuantity(productId, newQuantity) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        if (newQuantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            item.quantity = newQuantity;
+            updateCartDisplay();
+            saveCart();
+        }
+    }
+}
+
+// Fonction pour vider le panier
+function clearCart() {
+    cart = [];
+    updateCartDisplay();
+    saveCart();
+    showNotification('Panier vidé', 'info');
+}
+
+// Fonction pour calculer le total du panier
+function getCartTotal() {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
+// Fonction pour obtenir le nombre d'articles dans le panier
+function getCartItemCount() {
+    return cart.reduce((count, item) => count + item.quantity, 0);
+}
+
+// Fonction pour mettre à jour l'affichage du panier
+function updateCartDisplay() {
+    // Mettre à jour le compteur dans le header
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        cartCount.textContent = getCartItemCount();
+    }
+    
+    // Mettre à jour le contenu du modal panier
+    updateCartModal();
+}
+
+// Fonction pour mettre à jour le modal du panier
+function updateCartModal() {
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    
+    if (!cartItems || !cartTotal) return;
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="cart-empty">Votre panier est vide</div>';
+        cartTotal.textContent = '0,00 €';
+        return;
+    }
+    
+    cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik00MCA0MEw1MCAzMEgzMEw0MCA0MFoiIGZpbGw9IiNDQ0MiLz4KPC9zdmc+Cg=='">
+            <div class="cart-item-info">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-price">${item.price.toFixed(2)} €</div>
+                <div class="cart-item-quantity">
+                    <button class="cart-quantity-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <span class="cart-quantity-display">${item.quantity}</span>
+                    <button class="cart-quantity-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                </div>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Supprimer">×</button>
+        </div>
+    `).join('');
+    
+    cartTotal.textContent = getCartTotal().toFixed(2) + ' €';
+}
+
+// Fonction pour sauvegarder le panier
+function saveCart() {
+    localStorage.setItem('nathpepper-cart', JSON.stringify(cart));
+}
+
+// Fonction pour ouvrir le modal panier
+function openCartModal() {
+    const modal = document.getElementById('cart-modal');
+    updateCartModal();
+    modal.classList.add('show');
+}
+
+// Fonction pour procéder au checkout (simulation)
+function checkout() {
+    if (cart.length === 0) {
+        showNotification('Votre panier est vide', 'error');
+        return;
+    }
+    
+    // Simulation du processus de commande
+    showNotification('Redirection vers le paiement...', 'info');
+    
+    // Dans une vraie application, on redirigerait vers une page de paiement
+    setTimeout(() => {
+        showNotification('Commande simulée avec succès !', 'success');
+        clearCart();
+        
+        // Fermer le modal
+        const modal = document.getElementById('cart-modal');
+        modal.classList.remove('show');
+    }, 2000);
+}
+
+// Fonction pour afficher les notifications
+function showNotification(message, type = 'info') {
+    // Supprimer les notifications existantes
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => notification.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Supprimer la notification après 3 secondes
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Initialiser le panier au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartDisplay();
+    
+    // Ajouter les événements pour les boutons du panier
+    const cartBtn = document.getElementById('btn-cart');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', openCartModal);
+    }
+    
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', checkout);
+    }
+    
+    const clearCartBtn = document.getElementById('clear-cart');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+                clearCart();
+            }
+        });
+    }
+});
+
+// Exporter les fonctions pour les autres modules
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateCartQuantity = updateCartQuantity;
+window.clearCart = clearCart;
+window.openCartModal = openCartModal;
+window.checkout = checkout;
+window.showNotification = showNotification;
