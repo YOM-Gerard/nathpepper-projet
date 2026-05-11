@@ -37,3 +37,76 @@
             </div>
         </div>
     </footer>
+    <!-- Modals -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Mon Panier</h2>
+            </div>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <strong>Total: <span id="cart-total">0,00 €</span></strong>
+            </div>
+            <div class="cart-actions">
+                <button class="btn-primary" id="checkout-btn">Commander</button>
+                <button class="btn-secondary" id="clear-cart">Vider le panier</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="account-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Mon Compte</h2>
+            </div>
+            <div class="account-tabs">
+                <button class="tab-btn active" data-tab="login">Connexion</button>
+                <button class="tab-btn" data-tab="register">Inscription</button>
+            </div>
+            <div id="login-form" class="tab-content active">
+                <form>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Se connecter</button>
+                </form>
+            </div>
+            <div id="register-form" class="tab-content">
+                <form>
+                    <div class="form-group">
+                        <label for="register-name">Nom</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/main.js"></script>
+    </body>
+</html>
