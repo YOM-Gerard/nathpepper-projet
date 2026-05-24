@@ -584,13 +584,9 @@ p {
 .user-welcome {
     font-size: 0.9rem;
     color: #555555;
-    margin-right: 5px;
 }
 
 .user-welcome strong {
     color: #111111;
-}
-
-.btn-login, .btn-logout {
-    font-weight: 500;
+    font-weight: 600;
 }
