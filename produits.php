@@ -16,7 +16,11 @@ $products = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathpepper - Boutique de Poivres</title>
     
-    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -51,7 +55,6 @@ $products = $stmt->fetchAll();
         </section>
     </main>
 
-    <script src="js/cart.js"></script>
 
     <?php require_once 'includes/footer.php'; ?>
 
