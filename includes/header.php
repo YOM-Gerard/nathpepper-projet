@@ -19,9 +19,9 @@
         </ul>
 
         <div class="nav-actions">
-            <button class="btn-cart" id="btn-cart">
+            <a href="panier.php" class="btn-cart" id="btn-cart" style="text-decoration: none; display: inline-block;">
                 🛒 <span class="cart-count" id="cart-count">0</span>
-            </button>
+            </a>
         </div>
     </div>
 </header>
