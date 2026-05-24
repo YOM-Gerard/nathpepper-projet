@@ -27,7 +27,7 @@ $products = $stmt->fetchAll();
     <?php require_once 'includes/header.php'; ?>
 
     <main class="container">
-        <div style="height: 120px; width: 100%;"></div> 
+        <div style="height: 120px; width: 100%;"></div>
 
         <section class="products-page">
             <h1 class="section-title">Notre Boutique de Poivres</h1>

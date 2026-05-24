@@ -1,20 +1,27 @@
-<header>
+<header class="header">
     <div class="nav-container">
-        <div class="logo">
-            <a href="produits.php">Nathpepper</a>
-        </div>
+        <a href="index.php">
+            <img src="public/images/logo-front.png" alt="Nathpepper" class="logo">
+        </a>
         
-        <a href="produits.php">Boutique</a>
-        <a href="index.html#story">Notre Histoire</a>
-        
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="deconnexion.php" class="btn-login" style="background-color: #f44336; color: #fff;">Déconnexion</a>
-        <?php else: ?>
-            <a href="connexion.php" class="btn-login">Connexion</a>
-        <?php endif; ?>
+        <ul class="nav-menu">
+            <li><a href="index.php" class="nav-link">Accueil</a></li>
+            <li><a href="produits.php" class="nav-link">Nos poivres</a></li>
+            <li><a href="index.html#story" class="nav-link">Notre Histoire</a></li>
+            <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><span class="nav-link" style="cursor: default;">👤 <?php echo htmlspecialchars($_SESSION['user_name']); ?></span></li>
+                <li><a href="deconnexion.php" class="nav-link" style="color: #f44336;">Déconnexion</a></li>
+            <?php else: ?>
+                <li><a href="connexion.php" class="nav-link">Connexion</a></li>
+            <?php endif; ?>
+        </ul>
 
-        <div class="cart-icon" id="btn-cart">
-            🛒 <span id="cart-count">0</span>
+        <div class="nav-actions">
+            <button class="btn-cart" id="btn-cart">
+                🛒 <span class="cart-count" id="cart-count">0</span>
+            </button>
         </div>
     </div>
 </header>

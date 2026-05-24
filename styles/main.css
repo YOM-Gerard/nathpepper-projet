@@ -579,13 +579,14 @@ p {
 .mt-3 { margin-top: 3rem; }
 
 /* ==========================================================================
-   AJUSTEMENTS DE FINITION NATHPEPPER
+   AJUSTEMENTS FINAUX AUTHENTIFICATION
    ========================================================================== */
-.auth-link.connected {
-    color: #555555;
-    font-size: 0.9rem;
+.btn-login {
+    text-decoration: none;
+    color: #111111;
+    font-weight: 500;
 }
 
-.auth-link.connected:hover {
-    color: #e53935; /* Devient discrètement rouge uniquement au survol pour la déconnexion */
+.btn-login:hover {
+    color: #555555;
 }
