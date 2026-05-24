@@ -1,28 +1,27 @@
 // Gestion du panier
 let cart = JSON.parse(localStorage.getItem('nathpepper-cart')) || [];
 
-// Fonction pour ajouter un produit au panier
-function addToCart(productId, quantity = 1) {
-    const product = getProductById(productId);
-    if (!product) return;
-
+// Fonction pour ajouter un produit au panier (mise à jour avec les infos directes)
+function addToCart(productId, name, price, image, quantity = 1) {
+    // On regarde si le produit est déjà dans le panier
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
         existingItem.quantity += quantity;
     } else {
+        // On crée l'article directement avec les données reçues du bouton HTML
         cart.push({
             id: productId,
-            name: product.name,
-            price: product.price,
-            image: product.image,
+            name: name,
+            price: parseFloat(price),
+            image: image,
             quantity: quantity
         });
     }
     
     updateCartDisplay();
     saveCart();
-    showNotification(`${product.name} ajouté au panier`, 'success');
+    showNotification(`${name} ajouté au panier`, 'success');
 }
 
 // Fonction pour retirer un produit du panier
@@ -122,33 +121,53 @@ function saveCart() {
 function openCartModal() {
     const modal = document.getElementById('cart-modal');
     updateCartModal();
-    modal.classList.add('show');
+    if (modal) {
+        modal.classList.add('show');
+    }
 }
 
-// Fonction pour procéder au checkout (simulation)
+// Nouvelle fonction pour procéder au checkout (avec sauvegarde en BDD)
 function checkout() {
-    if (cart.length === 0) {
+    if (!cart || cart.length === 0) {
         showNotification('Votre panier est vide', 'error');
         return;
     }
     
-    // Simulation du processus de commande
-    showNotification('Redirection vers le paiement...', 'info');
+    showNotification('Sauvegarde de votre commande...', 'info');
     
-    // Dans une vraie application, on redirigerait vers une page de paiement
-    setTimeout(() => {
-        showNotification('Commande simulée avec succès !', 'success');
-        clearCart();
-        
-        // Fermer le modal
-        const modal = document.getElementById('cart-modal');
-        modal.classList.remove('show');
-    }, 2000);
+    fetch('save_order.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart: cart })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Le serveur a répondu avec un statut " + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            showNotification(`Commande validée ! (N° ${data.order_id})`, 'success');
+            clearCart();
+            const modal = document.getElementById('cart-modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        } else {
+            showNotification('Erreur : ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error("Erreur Fetch complète :", error);
+        showNotification('Erreur technique lors de la validation.', 'error');
+    });
 }
 
 // Fonction pour afficher les notifications
 function showNotification(message, type = 'info') {
-    // Supprimer les notifications existantes
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
     
@@ -158,7 +177,6 @@ function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
-    // Supprimer la notification après 3 secondes
     setTimeout(() => {
         notification.remove();
     }, 3000);
@@ -168,7 +186,6 @@ function showNotification(message, type = 'info') {
 document.addEventListener('DOMContentLoaded', function() {
     updateCartDisplay();
     
-    // Ajouter les événements pour les boutons du panier
     const cartBtn = document.getElementById('btn-cart');
     if (cartBtn) {
         cartBtn.addEventListener('click', openCartModal);

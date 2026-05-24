@@ -25,10 +25,7 @@ $products = $stmt->fetchAll();
                         <p class="product-description"><?php echo $product['description']; ?></p>
                         <div class="product-bottom">
                             <span class="product-price"><?php echo number_format($product['price'], 2, ',', ' '); ?> €</span>
-                            <button class="btn-add-cart" 
-                                    data-id="<?php echo $product['id']; ?>" 
-                                    data-name="<?php echo $product['name']; ?>" 
-                                    data-price="<?php echo $product['price']; ?>">
+                            <button class="btn-add-cart" onclick="addToCart(<?php echo $product['id']; ?>, '<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>, 'public/images/products/<?php echo pathinfo($product['image_url'], PATHINFO_FILENAME); ?>.jpg')">
                                 Ajouter au panier
                             </button>
                         </div>
