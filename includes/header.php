@@ -1,27 +1,22 @@
-<header class="main-header">
-    <div class="header-container">
+<header>
+    <div class="nav-container">
         <div class="logo">
-            <a href="produits.php"><h1>Nathpepper</h1></a>
+            <a href="index.html">Nathpepper</a>
         </div>
-
-        <nav class="main-nav">
-            <ul>
-                <li><a href="produits.php">Boutique</a></li>
-                
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <li class="user-welcome">Bonjour, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></li>
-                    <li><a href="deconnexion.php" class="btn-logout">Déconnexion</a></li>
-                <?php else: ?>
-                    <li><a href="connexion.php" class="btn-login">Connexion</a></li>
-                <?php endif; ?>
-            </ul>
+        <nav>
+            <a href="produits.php">Boutique</a>
+            <a href="#story">Notre Histoire</a>
+            <a href="#contact">Contact</a>
+            
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <span class="user-welcome">Bonjour, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></span>
+                <a href="deconnexion.php" class="btn-logout">Déconnexion</a>
+            <?php else: ?>
+                <a href="connexion.php" class="btn-login">Connexion</a>
+            <?php endif; ?>
         </nav>
-
-        <div class="header-cart">
-            <button id="btn-cart" class="cart-button">
-                <span class="cart-icon">🛒</span>
-                <span id="cart-count" class="cart-badge">0</span>
-            </button>
+        <div class="cart-icon" id="btn-cart">
+            🛒 <span id="cart-count">0</span>
         </div>
     </div>
 </header>
