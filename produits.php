@@ -14,7 +14,7 @@ $products = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nathpepper - Boutique de Poivres</title>
+    <title>Nathpepper - Nos Poivres</title>
     
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
@@ -30,7 +30,7 @@ $products = $stmt->fetchAll();
         <div style="height: 120px; width: 100%;"></div>
 
         <section class="products-page">
-            <h1 class="section-title">Notre Boutique de Poivres</h1>
+            <h1 class="section-title">Nos Poivres</h1>
             <p class="section-subtitle">Découvrez l'intégralité de notre collection premium.</p>
             
             <div class="products-grid">
