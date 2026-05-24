@@ -16,10 +16,7 @@ $products = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathpepper - Boutique de Poivres</title>
     
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/produits.css">
-    <link rel="stylesheet" href="styles/cart.css">
+    <link rel="stylesheet" href="public/css/main.css">
 </head>
 <body>
 
