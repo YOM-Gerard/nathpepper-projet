@@ -6,15 +6,15 @@
         
         <a href="produits.php">Boutique</a>
         <a href="#story">Notre Histoire</a>
-        <a href="#contact">Contact</a>
         
         <?php if (isset($_SESSION['user_id'])): ?>
-            <!-- Affichage client connecté -->
-            <span class="user-welcome">Bonjour, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></span>
-            <a href="deconnexion.php" class="btn-logout">Déconnexion</a>
+            <!-- Si connecté : Le 3ème lien devient le prénom (cliquable pour se déconnecter) -->
+            <a href="deconnexion.php" class="auth-link connected" title="Cliquez pour vous déconnecter">
+                👤 <?php echo htmlspecialchars($_SESSION['user_name']); ?> (Quitter)
+            </a>
         <?php else: ?>
-            <!-- Affichage visiteur anonyme -->
-            <a href="connexion.php" class="btn-login">Connexion</a>
+            <!-- Si anonyme : Le 3ème lien reste ton lien Contact / Connexion classique -->
+            <a href="connexion.php" class="auth-link">Connexion</a>
         <?php endif; ?>
 
         <div class="cart-icon" id="btn-cart">
