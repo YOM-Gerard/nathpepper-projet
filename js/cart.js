@@ -133,36 +133,54 @@ function checkout() {
         return;
     }
     
-    showNotification('Sauvegarde de votre commande...', 'info');
+    // On demande les infos au client (Simple et ultra-rapide pour tester)
+    const name = prompt("Entrez votre Nom et Prénom :");
+    if (!name) return;
+    const email = prompt("Entrez votre adresse Email :");
+    if (!email) return;
+    const address = prompt("Entrez votre Adresse de livraison :");
+    if (!address) return;
+    const city = prompt("Entrez votre Ville :");
+    if (!city) return;
+    const zipcode = prompt("Entrez votre Code Postal :");
+    if (!zipcode) return;
+
+    showNotification('Création de votre commande...', 'info');
     
+    // On prépare le gros paquet de données (Panier + Client)
+    const payload = {
+        cart: cart,
+        client: {
+            name: name,
+            email: email,
+            address: address,
+            city: city,
+            zipcode: zipcode
+        }
+    };
+    
+    // Envoi au PHP
     fetch('save_order.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ cart: cart })
+        body: JSON.stringify(payload)
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Le serveur a répondu avec un statut " + response.status);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification(`Commande validée ! (N° ${data.order_id})`, 'success');
+            showNotification(`Merci ${name} ! Commande n°${data.order_id} enregistrée.`, 'success');
             clearCart();
             const modal = document.getElementById('cart-modal');
-            if (modal) {
-                modal.classList.remove('show');
-            }
+            if (modal) modal.classList.remove('show');
         } else {
             showNotification('Erreur : ' + data.message, 'error');
         }
     })
     .catch(error => {
-        console.error("Erreur Fetch complète :", error);
-        showNotification('Erreur technique lors de la validation.', 'error');
+        console.error("Erreur:", error);
+        showNotification('Erreur lors de la commande.', 'error');
     });
 }
 
