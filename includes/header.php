@@ -12,7 +12,7 @@
                     <li class="user-welcome">Bonjour, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></li>
                     <li><a href="deconnexion.php" class="btn-logout">Déconnexion</a></li>
                 <?php else: ?>
-                    <li><a href="connexion.php" class="btn-login">Connexion / Inscription</a></li>
+                    <li><a href="connexion.php" class="btn-login">Connexion</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
