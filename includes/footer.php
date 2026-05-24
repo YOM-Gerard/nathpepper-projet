@@ -104,7 +104,7 @@
             </div>
         </div>
     </div>
-    <script src="js/products.js"></script>
+    <!--<script src="js/products.js"></script>-->
     <script src="js/cart.js"></script>
     <script src="js/modals.js"></script>
     <script src="js/main.js"></script>
